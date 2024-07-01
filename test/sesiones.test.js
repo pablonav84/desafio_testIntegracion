@@ -20,10 +20,19 @@ const connDB = async () => {
 };
 connDB();
 
-describe("Pruebas a la ruta /api/sessions, sesiones de usuario", () => {
+describe("Pruebas a la ruta /api/sessions, sesiones de usuario", function(){
+  this.timeout(8000)
 
     let cookie;
     let token;
+    let userLogin= {email: "pablo@test.com", password: "123"}
+    let userMock= { 
+      nombre:"pedrito",
+      apellido: "paez",
+      email:"testing@test.com",
+      edad:35,
+      password:"123"
+   }
 
     after(async () => {
       // eliminar elementos creados por la prueba en DB
@@ -35,7 +44,7 @@ describe("Pruebas a la ruta /api/sessions, sesiones de usuario", () => {
 it("la ruta /login con el metodo POST permite iniciar sesion", async ()=>{
     let res = await requester
       .post("/api/sessions/login")
-      .send({ email: "pablo@test.com", password: "123" });
+      .send(userLogin);
     cookie = res.headers["set-cookie"];
     token = cookie[0].split(";")[0].split("=")[1];
    
@@ -62,13 +71,7 @@ it("la ruta /login con el metodo POST permite iniciar sesion", async ()=>{
   it('La ruta /registro con el método POST permite crear un nuevo registro de usuario', async () => {
     const res = await requester
     .post('/api/sessions/registro')
-    .send({ 
-        nombre:"pedrito",
-        apellido: "paez",
-        email:"testing@test.com",
-        edad:35,
-        password:"123"
-     });
+    .send(userMock);
 
     expect(res.status).to.equal(201);
     expect(res.body.status).to.equal("registro correcto");

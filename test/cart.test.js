@@ -13,23 +13,25 @@ const connDB = async () => {
         dbName: config.DB_NAME
       }
     );
-    console.log("DB conectada...!!!");
   } catch (error) {
     console.log(`Error al conectar a DB: ${error}`);
   }
 };
 connDB();
 
-describe("Pruebas de autenticación y acceso a ruta protegida de carts", () => {
+describe("Pruebas de autenticación y acceso a ruta protegida de carts", function(){
+  this.timeout(8000)
 
     let cartId;
     let cookie;
     let token;
+    let userLogin= {email: "pablo@test.com", password: "123"}
+
   beforeEach(async () => {
     // Realizar la solicitud de inicio de sesión y obtener la cookie
     let res = await requester
       .post("/api/sessions/login")
-      .send({ email: "pablo@test.com", password: "123" });
+      .send(userLogin);
     cookie = res.headers["set-cookie"];
     token = cookie[0].split(";")[0].split("=")[1];
   });

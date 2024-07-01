@@ -11,24 +11,26 @@ const connDB = async () => {
     await mongoose.connect(config.MONGO_URL, {
       dbName: config.DB_NAME,
     });
-    console.log("DB conectada...!!!");
   } catch (error) {
     console.log(`Error al conectar a DB: ${error}`);
   }
 };
 connDB();
 
-describe("Pruebas de autenticación y acceso a ruta protegida de productos", () => {
+describe("Pruebas de autenticación y acceso a ruta protegida de productos", function(){
+  this.timeout(8000)
+
   let cookie;
   let token;
   let Productos;
   let productoId;
+  let userLogin= {email: "pablo@test.com", password: "123"}
 
   beforeEach(async () => {
     // Realizar la solicitud de inicio de sesión y obtener la cookie
     let res = await requester
       .post("/api/sessions/login")
-      .send({ email: "pablo@test.com", password: "123" });
+      .send(userLogin);
     cookie = res.headers["set-cookie"];
     token = cookie[0].split(";")[0].split("=")[1];
   });
