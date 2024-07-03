@@ -1,12 +1,15 @@
 <h2>Carrito de {{usuario.nombre}}</h2>
-<h3>Id carrito: {{usuario.cart}}</h3>
+<h3>Id carrito: {{carrito._id}}</h3>
 <hr>
 <ul>
-    {{#each cart.items}}
+    {{#each carrito.items}}
         <li>
-            {{product.description}} - cantidad: {{cantidad}} - precio: {{producto.precio}}
+           descripción: {{productId.description}} - cantidad: {{cantidad}} - precio: {{productId.price}}
         </li>
     {{/each}}
 </ul>
 <br>
-<a href="/productos">Seguir comprando</a>
+<button onclick="window.location.href='/productos'">Seguir comprando</button>
+<br>
+<button onclick="comprar('{{usuario.cart._id}}')">Finalizar Compra</button>
+<br>

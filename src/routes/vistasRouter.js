@@ -101,14 +101,10 @@ router.get("/registro", (req, res) => {
   return res.status(200).render("registro");
 })
 
-router.get('/carrito', passportCall("jwt"),async(req,res)=>{
+router.get('/carrito', passportCall("jwt"),async(req, res) => {
 
-  let carrito=await carritosDAO.getOneByPopulate({_id:req.user.cart})
-  console.log(carrito)
-  // let conStock=[]
-  // let sinStock=[]
-  // carrito.productos.forEach()
-
-  res.setHeader('Content-Type','text/html')
-  res.status(200).render("carrito", {usuario: req.user, carrito})
+  let usuario=req.user
+  let carrito=await carritosDAO.getOneByPopulate({_id:usuario.cart._id})
+  
+  res.status(200).render('carrito', {usuario: req.user, carrito});
 })

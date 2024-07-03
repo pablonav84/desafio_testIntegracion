@@ -14,7 +14,7 @@ export class CarritosDAO{
     }
 
     async getOneByPopulate(filtro={}){
-        return await Cart.findOne(filtro).populate("productos.product").lean()
+        return await Cart.findOne(filtro).populate("items.productId").lean()
     }
 
     async create(){
